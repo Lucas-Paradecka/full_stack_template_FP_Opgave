@@ -1,27 +1,73 @@
-# full_stack_template :rocket: :rocket: :rocket: 
-## Before starting to code be sure to fork this repo to your own account since no push-restrictions have been set on this repo currently :smiley:
-Welcome to this project template! This repository is designed to help you get started quickly with both the backend and frontend components already set up.
-Take this template with a grain of salt and configure the general structure if you think it makes better sense - also be sure to consult any LLM for lightning fast development
-# Backend 
-## Required installation
-any IDE 
-.Net sdk 8.*.*
+# Fairplan Frontend MVP.
 
-## Backend Architecture
-The backend is structured using the Onion Architecture (Clean Architecture ish without the CQRS pattern), promoting separation of concerns and scalability. This structure ensures that core business logic remains independent of external frameworks and tools, allowing easier maintenance and testing.
+Dette er en frontend-MVP lavet til hjemmeopgaven for Fairplan.
 
-### Key Features:
-Core Layer: Contains the domain entities and application logic.
-Application Layer: Handles use cases, services, and interfaces for communication between the core and infrastructure layers.
-Infrastructure Layer: Implements data access using Entity Framework and is set up to work with PostgreSQL or MSSQL. Alternatively, you can use an SQLite in-memory database (or another in-memory database) for testing or lightweight development purposes.
-Web API: The Startup Project is a Web API, providing API endpoints for client communication.
-This setup allows flexibility in configuring your preferred database system while maintaining a clean separation between your business logic and data access layers.
+Løsningen er bygget med React og TypeScript og tager udgangspunkt i den udleverede full stack template. Fokus har været hurtig eksekvering, brugervenlighed, struktur, validering og de vigtigste domæneregler.
 
-# Frontend
-The frontend of this project is built using TypeScript and React, with routing handled by react-router-dom v7
-The initial folder structure has been configured but feel free to adjust it
- 
-## Required installation
-Node 20^ (preferably use nvm to manage multiple version you may already have installed)
+## Afgrænsning.
 
-## A boilerplate readme can be found in the frontend directory for further information
+Opgaven er afgrænset til frontend-delen.
+
+Backend, login og database er ikke implementeret i denne version, da backend fremgår som valgfrit i opgavebeskrivelsen, og løsningen er aftalt som en frontend-MVP.
+
+Data håndteres som mock data i React state. Datastrukturen er dog opdelt i typer, initial data og valideringsfunktioner, så data-laget senere kan erstattes af et REST API.
+
+## Implementeret funktionalitet.
+
+- Venstremenu med de beskrevne sider.
+- Tabelvisninger.
+- CRUD for brugere.
+- CRUD for afsnit.
+- CRUD for personalegrupper.
+- CRUD for vagtlag.
+- CRUD for ansættelser.
+- Read-only personalevisning baseret på ansættelser.
+- Søgning, filtrering og sortering på personalesiden.
+- Tydelige fejlbeskeder ved valideringsfejl.
+- Reset-knap til demo-data.
+
+## Domæneregler.
+
+Følgende regler er implementeret:
+
+- Navn er påkrævet for brugere, afsnit, personalegrupper og vagtlag.
+- E-mail er påkrævet for brugere.
+- E-mail skal være unik.
+- En bruger kan have rollen Admin og/eller Personale.
+- Ved sletning af en bruger slettes brugerens tilknyttede ansættelser.
+- Afsnit kan ikke slettes, hvis det bruges i en ansættelse.
+- Personalegrupper kan ikke slettes, hvis de bruges i en ansættelse.
+- Vagtlag kan ikke slettes, hvis de bruges i en ansættelse.
+- Ansættelser kan kun oprettes for brugere med rollen Personale.
+- Timer pr. uge skal være et heltal mellem 0 og 37.
+- Startdato og slutdato er påkrævet.
+- Slutdato skal være efter startdato.
+- Ansættelsesperioder må ikke overlappe for samme person.
+
+## Struktur.
+
+De vigtigste filer ligger i `frontend/app`:
+app/
+  components/
+    Sidebar.tsx
+
+  data/
+    initialData.ts
+
+  pages/
+    UsersPage.tsx
+    DepartmentsPage.tsx
+    StaffGroupsPage.tsx
+    ShiftLayersPage.tsx
+    EmploymentsPage.tsx
+    PersonnelPage.tsx
+    PeriodsPage.tsx
+
+  types/
+    domain.ts
+
+  utils/
+    validation.ts
+
+  routes/
+    home.tsx
